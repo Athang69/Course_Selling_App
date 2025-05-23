@@ -1,6 +1,6 @@
 const Router=require("express");
 const adminRouter=Router();
-const{ adminModel }=require("../db")
+const{ adminModel, courseModel }=require("../db")
 const { z }=require("zod");
 const bcrypt=require("bcrypt");
 const {jwt,JWT_ADMIN_SECRET,adminauth}=require("../middlewares/adminauth")
@@ -81,8 +81,18 @@ adminRouter.post("/signin",async function(req,res){
       }
 })
 
-adminRouter.put("/course",adminauth, function(req,res){
+adminRouter.put("/course",adminauth, async function(req,res){
   const adminId=req.adminId;
+  const { title, description, price, imageURL }=req.body;
+
+  const course=await courseModel.create({
+    title, description, price, imageURL, creatorId:adminId
+  })
+
+  res.json({
+    message:"Course created successfully",
+    courseId:course._id
+  })
 })
 
 adminRouter.get("/course/bulk",function(req,res){
