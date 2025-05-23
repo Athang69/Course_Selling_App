@@ -1,22 +1,6 @@
 const jwt=require("jsonwebtoken");
-const JWT_USER_SECRET="s3cretforuser";
 const JWT_ADMIN_SECRET="s3cretforadmin";
 
-function userauth (req,res,next){
-  const userToken=req.headers.token;
-  const decodedData=jwt.verify(userToken,JWT_USER_SECRET);
-  if(decodedData)
-  {
-    req.userId=decodedData.Id;
-    next();
-  }
-  else{
-    res.status(403).json({
-      message:"Invalid login credentials for user"
-    })
-  }
-
-}
 
 function adminauth(req,res,next){
   const adminToken=req.headers.token;
@@ -34,6 +18,6 @@ function adminauth(req,res,next){
 
 module.exports={
   jwt,
-  JWT_USER_SECRET,
-  JWT_ADMIN_SECRET
+  JWT_ADMIN_SECRET,
+  adminauth
 }

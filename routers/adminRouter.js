@@ -3,7 +3,7 @@ const adminRouter=Router();
 const{ adminModel }=require("../db")
 const { z }=require("zod");
 const bcrypt=require("bcrypt");
-const {jwt,JWT_ADMIN_SECRET}=require("../middle")
+const {jwt,JWT_ADMIN_SECRET}=require("../middlewares/adminauth")
 
 
 adminRouter.post("/signup",async function(req,res){

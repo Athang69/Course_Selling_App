@@ -4,7 +4,7 @@ const { z }=require("zod");
 const bcrypt=require("bcrypt");
 const { userModel }=require("../db");
 const mongoose=require("mongoose");
-const {jwt,JWT_USER_SECRET}=require("../middle")
+const {jwt,JWT_USER_SECRET}=require("../middlewares/userauth")
 
 userRouter.post("/signup",async function(req,res){
     const requiredBody=z.object({
