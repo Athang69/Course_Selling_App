@@ -1,5 +1,5 @@
 const jwt=require("jsonwebtoken");
-const JWT_SECRET="s3cret";
+const JWT_USER_SECRET="s3cretforuser";
 
 function userauth (req,res,next){
   const userToken=req.headers.token;
@@ -29,4 +29,9 @@ function adminauth(req,res,next){
       message:"Invalid Login credentials for admin"
     })
   }
+}
+
+module.exports={
+  jwt,
+  JWT_USER_SECRET
 }

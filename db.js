@@ -37,7 +37,8 @@ const adminModel=mongoose.model("admin",Admin);
 const courseModel=mongoose.model("courses",Course);
 const purchaseModel=mongoose.model("purchases",purchases);
 
-exports.module={
+
+module.exports={
   userModel,
   adminModel,
   courseModel,
