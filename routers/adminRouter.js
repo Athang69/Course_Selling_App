@@ -3,7 +3,7 @@ const adminRouter=Router();
 const{ adminModel }=require("../db")
 const { z }=require("zod");
 const bcrypt=require("bcrypt");
-const {jwt,JWT_ADMIN_SECRET}=require("../middlewares/adminauth")
+const {jwt,JWT_ADMIN_SECRET,adminauth}=require("../middlewares/adminauth")
 
 
 adminRouter.post("/signup",async function(req,res){
@@ -81,8 +81,8 @@ adminRouter.post("/signin",async function(req,res){
       }
 })
 
-adminRouter.put("/course",function(req,res){
-  
+adminRouter.put("/course",adminauth, function(req,res){
+  const adminId=req.adminId;
 })
 
 adminRouter.get("/course/bulk",function(req,res){
