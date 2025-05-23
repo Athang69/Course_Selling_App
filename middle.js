@@ -1,9 +1,10 @@
 const jwt=require("jsonwebtoken");
 const JWT_USER_SECRET="s3cretforuser";
+const JWT_ADMIN_SECRET="s3cretforadmin";
 
 function userauth (req,res,next){
   const userToken=req.headers.token;
-  const decodedData=jwt.verify(token,JWT_SECRET);
+  const decodedData=jwt.verify(userToken,JWT_USER_SECRET);
   if(decodedData)
   {
     req.userId=decodedData.Id;
@@ -19,9 +20,9 @@ function userauth (req,res,next){
 
 function adminauth(req,res,next){
   const adminToken=req.headers.token;
-  const decodedData2=jwt.verify(TokenExpiredError,JWT_SECRET);
+  const decodedData2=jwt.verify(adminToken,JWT_ADMIN_SECRET);
   if(decodedData2){
-    req.adminId=decodedData2.indexOf;
+    req.adminId=decodedData2.Id;
     next();
   }
   else{
@@ -33,5 +34,6 @@ function adminauth(req,res,next){
 
 module.exports={
   jwt,
-  JWT_USER_SECRET
+  JWT_USER_SECRET,
+  JWT_ADMIN_SECRET
 }
