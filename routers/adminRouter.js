@@ -82,47 +82,50 @@ adminRouter.post("/signin",async function(req,res){
 })
 
 adminRouter.post("/course",adminauth, async function(req,res){
-  const adminId=req.adminId;
-  const { title, description, price, imageURL }=req.body;
+    const adminId = req.adminId;
 
-  const course=await courseModel.create({
-    title, description, price, imageURL, creatorId:adminId
-  })
+    const { title, description, imageUrl, price } = req.body;
 
-  res.json({
-    message:"Course created successfully",
-    courseId:course._id
-  })
+    const course = await courseModel.create({
+        title: title, 
+        description: description, 
+        imageUrl: imageUrl, 
+        price: price, 
+        creatorId: adminId
+    })
+
+    res.json({
+        message: "Course created",
+        courseId: course._id
+    })
 })
 
-adminRouter.get("/course/bulk",function(req,res){
-  
-})
+
 
 adminRouter.put("/course",adminauth, async function(req,res){
-  const adminId=req.adminId;
-  const { title, description, price, imageURL, courseId }=req.body;
+    const adminId = req.adminId;
 
-  const course=await courseModel.updateOne({
-    _id: courseId,
-    createrId:adminId  //This validated where the admin who sent the course details to change is the legitmate owner of that course not any other admin
-  },{
-    title, description, price, imageURL
-  })
+    const { title, description, imageUrl, price, courseId } = req.body;
 
-  res.json({
-    message:"Course created successfully",
-    courseId:course._id
-  })
+    const course = await courseModel.updateOne({
+        _id: courseId, 
+        creatorId: adminId 
+    }, {
+        title: title, 
+        description: description, 
+        imageUrl: imageUrl, 
+        price: price
+    })
+
+    res.json({
+        message: "Course updated",
+        courseId: course._id
+    })
 })
+
 
 adminRouter.get("/course/bulk",adminauth, async function(req,res){
   const adminId=req.adminId;
-
-  const courses=await courseModel.find({
-    createrId:adminId
-  })
-
   res.json({
     message:"The courses that you have are as follows",
     courses
