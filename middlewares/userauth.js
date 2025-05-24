@@ -18,6 +18,5 @@ function userauth (req,res,next){
 }
 module.exports={
   jwt,
-  JWT_USER_SECRET,
   userauth
 }

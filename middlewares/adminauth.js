@@ -18,6 +18,5 @@ function adminauth(req,res,next){
 
 module.exports={
   jwt,
-  JWT_ADMIN_SECRET,
   adminauth
 }

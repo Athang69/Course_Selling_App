@@ -4,7 +4,8 @@ const { z }=require("zod");
 const bcrypt=require("bcrypt");
 const { userModel }=require("../db");
 const mongoose=require("mongoose");
-const {jwt,JWT_USER_SECRET}=require("../middlewares/userauth")
+const {jwt,userauth}=require("../middlewares/userauth");
+require('dotenv').config()
 
 userRouter.post("/signup",async function(req,res){
     const requiredBody=z.object({

@@ -3,8 +3,8 @@ const adminRouter=Router();
 const{ adminModel, courseModel }=require("../db")
 const { z }=require("zod");
 const bcrypt=require("bcrypt");
-const {jwt,JWT_ADMIN_SECRET,adminauth}=require("../middlewares/adminauth")
-
+const {jwt,adminauth}=require("../middlewares/adminauth")
+require('dotenv').config()
 
 adminRouter.post("/signup",async function(req,res){
     const requiredBody=z.object({
@@ -69,7 +69,7 @@ adminRouter.post("/signin",async function(req,res){
       if(passMatch){
           const token=jwt.sign({
               id:admin._id.toString()
-          },JWT_ADMIN_SECRET)
+          },process.env.JWT_ADMIN_SECRET)
           res.json({
               token:token
           })
@@ -81,7 +81,7 @@ adminRouter.post("/signin",async function(req,res){
       }
 })
 
-adminRouter.put("/course",adminauth, async function(req,res){
+adminRouter.post("/course",adminauth, async function(req,res){
   const adminId=req.adminId;
   const { title, description, price, imageURL }=req.body;
 
@@ -98,6 +98,38 @@ adminRouter.put("/course",adminauth, async function(req,res){
 adminRouter.get("/course/bulk",function(req,res){
   
 })
+
+adminRouter.put("/course",adminauth, async function(req,res){
+  const adminId=req.adminId;
+  const { title, description, price, imageURL, courseId }=req.body;
+
+  const course=await courseModel.updateOne({
+    _id: courseId,
+    createrId:adminId  //This validated where the admin who sent the course details to change is the legitmate owner of that course not any other admin
+  },{
+    title, description, price, imageURL
+  })
+
+  res.json({
+    message:"Course created successfully",
+    courseId:course._id
+  })
+})
+
+adminRouter.get("/course/bulk",adminauth, async function(req,res){
+  const adminId=req.adminId;
+
+  const courses=await courseModel.find({
+    createrId:adminId
+  })
+
+  res.json({
+    message:"The courses that you have are as follows",
+    courses
+  })
+})
+
+
 
 module.exports={
   adminRouter
