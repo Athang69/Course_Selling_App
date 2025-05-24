@@ -1,9 +1,9 @@
 const jwt=require("jsonwebtoken");
-const JWT_USER_SECRET="s3cretforuser";
+require('dotenv').config()
 
 function userauth (req,res,next){
   const userToken=req.headers.token;
-  const decodedData=jwt.verify(userToken,JWT_USER_SECRET);
+  const decodedData=jwt.verify(userToken,process.env.JWT_USER_SECRET);
   if(decodedData)
   {
     req.userId=decodedData.id;
